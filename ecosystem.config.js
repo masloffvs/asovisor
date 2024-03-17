@@ -11,7 +11,7 @@ module.exports = {
     {
       name: "ASOVizor Service",
       script: "npm",
-      args: "service",
+      args: "run service",
       env_production: {
         NODE_ENV: "production",
       },
