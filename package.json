@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "production": "npx vite-node service.ts && next start",
-    "service": "npx vite-node service.ts",
+    "service": "npx vite-node@1.4.0 service.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
