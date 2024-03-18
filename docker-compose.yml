@@ -50,8 +50,6 @@ services:
   app-nginx:
     links:
       - mongo
-      - background-service
-      - web-next
       - varnish-web
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
