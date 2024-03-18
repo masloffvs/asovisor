@@ -5,6 +5,7 @@ import hash from "object-hash";
 import { $loggerKit } from "./LoggerKit";
 
 const store = require("app-store-scraper");
+const memoized = require('app-store-scraper').memoized({ maxAge: 1000 * 60 });
 
 class IndexatorKit {
   indexEverything() {

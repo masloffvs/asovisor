@@ -1,5 +1,5 @@
-// @ts-ignore
-import store from "app-store-scraper";
+const memoized = require('app-store-scraper').memoized({ maxAge: 1000 * 60 });
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
   is,
@@ -37,7 +37,7 @@ export default function handler(
       .send({ message: validate(req.body, Request).join(", ") });
   }
 
-  (store.suggest(req.body) as Promise<any>)
+  (memoized.suggest(req.body) as Promise<any>)
     .catch((e) => res.status(500).json({ message: String(e) }))
     .then((results) =>
       res.status(200).json({ body: results, message: "Done!" }),

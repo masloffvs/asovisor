@@ -14,6 +14,7 @@
     "@types/country-list": "^2.1.4",
     "@uidotdev/usehooks": "^2.4.1",
     "app-store-scraper": "^0.18.0",
+    "aso": "^1.1.1",
     "axios": "^1.6.7",
     "camelcase": "^8.0.0",
     "chart.js": "^4.4.2",
