@@ -188,7 +188,7 @@ export default function App() {
                             </h6>
 
                             <div className="grid grid-cols-1 lg:grid-cols-2 mt-2">
-                              {i.statesAsoPages.map((details) => (
+                              {i.statesAsoPages?.map((details) => (
                                   <div
                                       className="bg-gray-50 rounded-lg flex flex-row px-2 py-2 gap-3">
                                     <img
@@ -235,7 +235,7 @@ export default function App() {
 
                   <div className="gap-1 w-full flex flex-row flex-wrap">
                     {
-                      _.get(aiSummary, 'keywordClassification', []).map((tag: any) => (
+                      _.get(aiSummary, 'keywordClassification', undefined)?.map((tag: any) => (
                           <div className="text-xs px-2 py-0.5 bg-gray-100 rounded-lg">
                             {tag}
                           </div>
@@ -251,7 +251,7 @@ export default function App() {
 
                   <div className="space-y-2 w-full">
                     {
-                      _.get(aiSummary, 'emotionClassification', []).map((emotion: any) => (
+                      _.get(aiSummary, 'emotionClassification', undefined)?.map((emotion: any) => (
                           <div>
                             <p className="text-xs text-gray-500 mb-0.5">
                               {emotion.label}
