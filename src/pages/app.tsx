@@ -148,23 +148,28 @@ export default function App() {
                                 {/*<YAxis/>*/}
                                 <Tooltip
                                   content={(i) => (
-                                    <div className="w-36 border border-gray-300 rounded-lg drop-shadow-sm bg-white z-50 ">
-                                      <p className="text-xs text-balance px-2 py-1">
-                                        {moment(
-                                          _.get(_.get(data, i.label), "at"),
-                                        ).format("DD.MM.YYYY")}
-                                        {/*{(new Date(_.get(data, i.label))).toLocaleString()}*/}
-                                      </p>
-                                    </div>
+                                      <div
+                                          className="w-36 border border-gray-300 rounded-lg drop-shadow-sm bg-white z-50 ">
+                                        <p className="text-xs text-balance px-2 py-1">
+                                          In search at {_.get(_.get(data, i.label), "index")}
+                                        </p>
+
+                                        <p className="text-xs text-balance px-2 py-1">
+                                          {moment(
+                                              _.get(_.get(data, i.label), "at"),
+                                          ).format("DD.MM.YYYY")}
+                                          {/*{(new Date(_.get(data, i.label))).toLocaleString()}*/}
+                                        </p>
+                                      </div>
                                   )}
                                 />
                                 {/*<Legend />*/}
                                 <CartesianGrid
-                                  stroke="#eee"
-                                  strokeDasharray="5 5"
+                                    stroke="#eee"
+                                    strokeDasharray="5 5"
                                 />
                                 <Line
-                                  connectNulls
+                                    connectNulls
                                   type="linearClosed"
                                   strokeWidth={2}
                                   dataKey="index"
