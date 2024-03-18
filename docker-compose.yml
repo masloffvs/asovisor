@@ -33,8 +33,6 @@ services:
     environment:
       - VARNISH_SIZE=2G
     command: "-p default_keep=300"
-    depends_on:
-      - "app-nginx"
 
   background-service:
     links:
@@ -62,3 +60,5 @@ services:
       - ./docker_npm_letsencrypt:/etc/letsencrypt
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - "varnish-web"
