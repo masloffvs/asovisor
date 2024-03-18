@@ -20,6 +20,22 @@ services:
       - ./config.docker.toml:/web/config.toml
     command: bash -c "cd /web && npm run start"
 
+  varnish-web:
+    image: varnish:stable
+    links:
+      - mongo
+      - background-service
+      - web-next
+    volumes:
+      - "./varnish-web.vcl:/etc/varnish/default.vcl"
+    tmpfs:
+      - /var/lib/varnish:exec
+    environment:
+      - VARNISH_SIZE=2G
+    command: "-p default_keep=300"
+    depends_on:
+      - "app-nginx"
+
   background-service:
     links:
       - mongo
@@ -31,11 +47,12 @@ services:
       - ./config.docker.toml:/web/config.toml
     command: bash -c "cd /web && ls && npm run service"
 
-  app:
+  app-nginx:
     links:
       - mongo
       - background-service
       - web-next
+      - varnish-web
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     #network_mode: "host"
