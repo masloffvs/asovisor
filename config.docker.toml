@@ -1,0 +1,2 @@
+[mongo]
+url = "mongodb://mongo:3211"

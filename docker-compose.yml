@@ -17,6 +17,7 @@ services:
     restart: always
     volumes:
       - ./:/web
+      - ./config.docker.toml:/web/config.toml
     command: bash -c "cd /web && npm run start"
 
   background-service:
@@ -27,6 +28,7 @@ services:
     restart: always
     volumes:
       - ./:/web
+      - ./config.docker.toml:/web/config.toml
     command: bash -c "cd /web && ls && npm run service"
 
   app:
