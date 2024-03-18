@@ -26,8 +26,8 @@ services:
     image: node:18
     restart: always
     volumes:
-      - ./service.ts:/web/service.ts:ro
-    command: bash -c "cd /web && npm run service"
+      - ./service.ts:/web/service.ts
+    command: bash -c "cd /web && ls && npm run service"
 
   app:
     links:
