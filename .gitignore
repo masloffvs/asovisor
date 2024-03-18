@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+./docker_mongo
+/docker_mongo
+./docker_npm_data
+/docker_npm_data
+./docker_npm_letsencrypt
+/docker_npm_letsencrypt

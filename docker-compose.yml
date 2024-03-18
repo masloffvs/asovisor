@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    command: mongod --port 3211
+    volumes:
+      - ./docker_mongo:/data/db
+    #environment:
+    #  MONGO_INITDB_ROOT_USERNAME:
+    #  MONGO_INITDB_ROOT_PASSWORD: example
+
+  web-next:
+    links:
+      - mongo
+    image: node:18
+    restart: always
+    volumes:
+      - ./:/web
+    command: bash -c "cd /web && npm run start"
+
+  background-service:
+    links:
+      - mongo
+      - web-next
+    image: node:18
+    restart: always
+    volumes:
+      - ./service.ts:/web/service.ts:ro
+    command: bash -c "cd /web && npm run service"
+
+  app:
+    links:
+      - mongo
+      - background-service
+      - web-next
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    #network_mode: "host"
+    ports:
+      - '80:80'
+      - '81:81'
+    volumes:
+      - ./docker_npm_data:/data
+      - ./docker_npm_letsencrypt:/etc/letsencrypt
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
