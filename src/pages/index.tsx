@@ -1,27 +1,16 @@
 import RootLayout from "@/components/Layout";
 import Navbar from "@/components/Navbar";
 import React, { useEffect, useState } from "react";
-import { useTurbopack } from "next/dist/client/components/react-dev-overlay/internal/helpers/use-websocket";
 import axios from "axios";
-import ErrorSection from "@/components/ErrorSection";
-import SearchForm from "@/components/SearchForm";
 import { Else, If, Then } from "react-if";
 import { NextSeo } from "next-seo";
 import _ from "lodash";
-import Highlighter from "react-highlight-words";
-import SearchResults from "@/components/SearchResults";
-import LoaderIndicator from "@/components/LoaderIndicator";
 //@ts-ignore
 import useHashParam from "use-hash-param";
 import SearchEngine, { CompletedSearchEngine } from "@/components/SearchEngine";
 import CompactAppCard from "@/components/CompactAppCard";
 import { AppDto } from "@/dto/AppDto";
-import FirebaseAnalytic, {
-  firebaseApplication,
-  remoteConfig,
-} from "@/components/FirebaseAnalytic";
-import { fetchAndActivate, getValue } from "firebase/remote-config";
-import Image from "next/image";
+import FirebaseAnalytic from "@/components/FirebaseAnalytic";
 import AdBanner from "@/components/AdBanner";
 
 export default function Index() {
@@ -34,6 +23,7 @@ export default function Index() {
   const [hashSearch, setHashSearch] = useHashParam<undefined | string>(
     "search",
   );
+
   const [hashLang, setHashLang] = useHashParam<undefined | string>("lang");
   const [hashCountry, setHashCountry] = useHashParam<undefined | string>(
     "country",
@@ -74,6 +64,18 @@ export default function Index() {
       <NextSeo
         title={searchValue ? `ASOVizor | ${searchValue}` : "ASOVizor"}
         description="Your assistant in ASO market analysis"
+        canonical="https://www.asovizor.com/"
+        openGraph={{
+          type: 'website',
+          locale: 'en_EN',
+          url: 'https://www.asovizor.com/',
+          siteName: 'ASOVizor',
+        }}
+        themeColor="#0076CD"
+        robotsProps={{
+          noarchive: true,
+          notranslate: true,
+        }}
       />
 
       <FirebaseAnalytic pageName="Index">
