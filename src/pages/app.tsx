@@ -124,8 +124,6 @@ export default function App() {
                               >
                                 <ResponsiveContainer>
                                   <LineChart syncId="chartIndex" data={data}>
-                                    {/*<XAxis dataKey="at"/>*/}
-                                    {/*<YAxis/>*/}
                                     <Tooltip
                                         content={(i) => (
                                             <div
