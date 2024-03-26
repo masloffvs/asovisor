@@ -87,6 +87,7 @@ export default function App() {
             at: position.snapAt,
           }));
         });
+
         setChartPositions(_.values(_.groupBy(chartData, "name")));
       }
     })
@@ -232,57 +233,57 @@ export default function App() {
                   </div>
 
                   <h3 className="font-bold mt-6 text-sm">
-                  Positions history
+                    Positions history
                   </h3>
 
                   <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     {chartPositions?.map((data) => (
-                        <div>
-                          <div
-                            className="pt-4"
-                            style={{
-                              width: "100%",
-                              height: 200,
-                            }}
-                          >
-                            <ResponsiveContainer>
-                              <AreaChart syncId="chartIndex" data={data}>
-                                <Tooltip
-                                    content={(i) => (
-                                        <div
-                                            className="w-36 border border-gray-300 rounded-lg drop-shadow-sm bg-white z-50 ">
-                                          <p className="text-xs text-balance px-2 py-1">
-                                            In search at {_.get(_.get(data, i.label), "index")}
-                                          </p>
+                      <div>
+                        <div
+                          className="pt-4"
+                          style={{
+                            width: "100%",
+                            height: 200,
+                          }}
+                        >
+                          <ResponsiveContainer>
+                            <AreaChart syncId="chartIndex" data={data}>
+                              <Tooltip
+                                  content={(i) => (
+                                      <div
+                                          className="w-36 border border-gray-300 rounded-lg drop-shadow-sm bg-white z-50 ">
+                                        <p className="text-xs text-balance px-2 py-1">
+                                          In search at {_.get(_.get(data, i.label), "index")}
+                                        </p>
 
-                                          <p className="text-xs text-balance px-2 py-1">
-                                            {moment(
-                                                _.get(_.get(data, i.label), "at"),
-                                            ).format("DD.MM.YYYY")}
-                                            {/*{(new Date(_.get(data, i.label))).toLocaleString()}*/}
-                                          </p>
-                                        </div>
-                                    )}
-                                />
-                                <Area
-                                    connectNulls
-                                    fillOpacity={0.3}
-                                    fill="black"
-                                    strokeWidth={0.5}
-                                    dataKey="index"
-                                    stroke="black"
-                                />
-                              </AreaChart>
-                            </ResponsiveContainer>
-                          </div>
-                          <p className="text-xs text-gray-400 mt-2">
-                            Dynamics of position changes for request “
-                            <span className="font-semibold">
-                            {_.first(data)?.name}
-                          </span>
-                            ” in country “{getName(_.first(data)?.country)}”
-                          </p>
+                                        <p className="text-xs text-balance px-2 py-1">
+                                          {moment(
+                                              _.get(_.get(data, i.label), "at"),
+                                          ).format("DD.MM.YYYY")}
+                                          {/*{(new Date(_.get(data, i.label))).toLocaleString()}*/}
+                                        </p>
+                                      </div>
+                                  )}
+                              />
+                              <Area
+                                  connectNulls
+                                  fillOpacity={0.3}
+                                  fill="black"
+                                  strokeWidth={0.5}
+                                  dataKey="index"
+                                  stroke="black"
+                              />
+                            </AreaChart>
+                          </ResponsiveContainer>
                         </div>
+                        <p className="text-xs text-gray-400 mt-2">
+                          Dynamics of position changes for request “
+                          <span className="font-semibold">
+                          {_.first(data)?.name}
+                        </span>
+                          ” in country “{getName(_.first(data)?.country)}”
+                        </p>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -314,14 +315,18 @@ export default function App() {
                   <div className="space-y-2 mt-4 w-full">
                     {
                       _.take(_.get(aiSummary, 'emotionClassification', []), 5)?.map((emotion: any) => (
-                          <div>
-                            <p className="text-xs text-gray-500 mb-0.5">
-                              {emotion.label}
-                            </p>
-                            <Progress percent={emotion.score * 100} strokeWidth={1} trailColor={'#dfe6e9'}
-                                      trailWidth={1}
-                                      strokeColor="black"/>
-                          </div>
+                        <div>
+                          <p className="text-xs text-gray-500 mb-0.5">
+                            {emotion.label}
+                          </p>
+
+                          <Progress
+                            percent={emotion.score * 100}
+                            strokeWidth={1}
+                            trailColor={'#dfe6e9'}
+                            trailWidth={1}
+                            strokeColor="black"/>
+                        </div>
                       ))
                     }
                   </div>
@@ -331,31 +336,39 @@ export default function App() {
                   </h3>
 
                   <div className="mt-2">
-                    {appSnapshots?.flatMap((i) => {
-                      return i.statesAsoPages.flatMap(state => (
-                          <div onClick={() => {
-                            setSelectedSnapshot(state.details)
-                          }} className={
-                            classNames("w-full border-2 flex flex-row justify-between border-transparent cursor-pointer bg-gray-50 rounded-lg px-2.5 py-2", {
-                              "border-2 border-gray-700": selectedSnapshot == state.details
-                            })
-                          }>
-                            <div className="flex flex-row space-x-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                                   className="w-4 h-4">
-                                <path d="M9.5 8.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                                <path fillRule="evenodd"
-                                      d="M2.5 5A1.5 1.5 0 0 0 1 6.5v5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 13.5 5h-.879a1.5 1.5 0 0 1-1.06-.44l-1.122-1.12A1.5 1.5 0 0 0 9.38 3H6.62a1.5 1.5 0 0 0-1.06.44L4.439 4.56A1.5 1.5 0 0 1 3.38 5H2.5ZM11 8.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                      clipRule="evenodd"/>
-                              </svg>
+                    {appSnapshots?.flatMap((i) => (
+                      <div>
+                        <span className="text-xs text-gray-500">{getName(i.country)}</span>
+                        <div className="space-y-2">
+                          {
+                            _.takeRight(i.statesAsoPages, 6).flatMap(state => (
+                                <div onClick={() => {
+                                  setSelectedSnapshot(state.details)
+                                }} className={
+                                  classNames("w-full border-2 flex flex-row justify-between border-transparent cursor-pointer bg-gray-50 rounded-lg px-2.5 py-2", {
+                                    "border-2 border-gray-700": selectedSnapshot == state.details
+                                  })
+                                }>
+                                  <div className="flex flex-row space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                         className="w-4 h-4">
+                                      <path d="M9.5 8.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                      <path
+                                          fillRule="evenodd"
+                                          d="M2.5 5A1.5 1.5 0 0 0 1 6.5v5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 13.5 5h-.879a1.5 1.5 0 0 1-1.06-.44l-1.122-1.12A1.5 1.5 0 0 0 9.38 3H6.62a1.5 1.5 0 0 0-1.06.44L4.439 4.56A1.5 1.5 0 0 1 3.38 5H2.5ZM11 8.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                          clipRule="evenodd"/>
+                                    </svg>
 
-                              <span className="text-xs text-black">{i.term} (#{i.actualIndex})</span>
-                            </div>
+                                    <span className="text-xs text-black">{i.term}</span>
+                                  </div>
 
-                            <span className="text-xs text-gray-500">{moment(state.snapAt).fromNow()}</span>
-                          </div>
-                      ))
-                    })}
+                                  <span className="text-xs text-gray-500">{moment(state.snapAt).fromNow()}</span>
+                                </div>
+                            ))
+                          }
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
