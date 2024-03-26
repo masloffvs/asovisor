@@ -46,8 +46,6 @@ export default function SearchForm(props: Props) {
   const axiosInstance = setupCache(axios.create({}))
 
   const [term, setTerm] = useState<undefined | string>(props.searchValue);
-  const [lang, setLang] = useState<undefined | string>("en");
-  const [country, setCountry] = useState<undefined | string>("US");
   const [userActuallySelectLang, setUserActuallySelectLang] = useState(false);
 
   const [inFocus, setInFocus] = useState(false)
@@ -56,9 +54,9 @@ export default function SearchForm(props: Props) {
   useEffect(() => {
     axiosInstance
       .post("/api/suggests", {
-        term: term,
-        lang,
-        country,
+        term,
+        lang: props.lang,
+        country: props.country,
       }, {
         cancelToken: source.token
       })
@@ -74,11 +72,6 @@ export default function SearchForm(props: Props) {
     });
   }, [term]);
 
-  useEffect(() => {
-    setTerm(props.searchValue);
-    setCountry(props.country);
-    setLang(props.lang);
-  }, [props.searchValue, props.lang, props.country]);
 
 
   function Selectors() {
@@ -86,19 +79,17 @@ export default function SearchForm(props: Props) {
       <div className="flex h-full gap-1.5 flex-row">
         <SelectCountry
           className="text-sm w-32 px-2 text-gray-500 outline-none bg-gray-50 rounded-lg"
-          country={country}
-          setLang={setLang}
+          country={props.country}
+          setLang={props.onChangeLang}
           setCountry={value => {
-            setCountry(value)
             props?.onChangeCountry?.(value)
           }}
           userActuallySelectLang={userActuallySelectLang}
         />
 
         <select
-          value={lang}
+          value={props.lang}
           onChange={(e) => {
-            setLang(e.target.value);
             props?.onChangeLang?.(e.target.value)
             setUserActuallySelectLang(true);
           }}
@@ -134,7 +125,11 @@ export default function SearchForm(props: Props) {
         method="post"
         onFocus={() => setInFocus(true)}
         onBlur={() => setInFocus(false)}
-        onSubmit={(e) => props.onSubmit(e, {term, lang, country})}
+        onSubmit={(e) => props.onSubmit(e, {
+          term,
+          lang: props.lang,
+          country: props.country
+        })}
         className={classNames("flex border-2 items-center flex-row bg-gray-50 justify-between rounded-xl overflow-hidden px-1.5 py-1.5", {
           "border-gray-500": inFocus,
           "border-gray-200": !inFocus,
