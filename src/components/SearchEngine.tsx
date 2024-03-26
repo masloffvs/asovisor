@@ -7,6 +7,9 @@ import LoaderIndicator from "@/components/LoaderIndicator";
 import Highlighter from "react-highlight-words";
 import SearchResults from "@/components/SearchResults";
 import React, { useEffect, useState } from "react";
+import {logEvent} from "firebase/analytics";
+import camelcase from "camelcase";
+import {analytics} from "@/components/FirebaseAnalytic";
 
 interface Props {
   readonly searchValue?: string;
@@ -36,6 +39,7 @@ export default function SearchEngine({
   const [results, setResults] = useState<undefined | null | any[][]>(null);
   const [suggests, setSuggests] = useState<undefined | any[]>();
 
+
   return (
     <div>
       <SearchForm
@@ -45,6 +49,10 @@ export default function SearchEngine({
         onSubmit={(e, data) => {
           e.preventDefault();
 
+          setErrorString(undefined);
+          setResults(undefined);
+          setSuggests(undefined);
+
           if (onSubmit) {
             onSubmit(data);
           }
@@ -52,21 +60,20 @@ export default function SearchEngine({
           if (setSearchValue) {
             setSearchValue(data.term);
           }
-          //setHashSearch(data.term);
 
-          setErrorString(undefined);
-          setResults(undefined);
-          setSuggests(undefined);
+          if (process.env.NODE_ENV != 'development') {
+            logEvent(analytics, "search", {
+              value: camelcase(data.term!!),
+            });
+          }
 
           if (setLang) {
             setLang(data.lang);
           }
-          //setHashLang(data.lang);
 
           if (setCountry) {
             setCountry(data.country);
           }
-          //setHashCountry(data.country);
 
           axios
             .post("/api/search", data)

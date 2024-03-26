@@ -34,7 +34,7 @@ export default function Navbar({ activeHref, appendItems }: Props) {
   );
 
   return (
-    <nav className="w-full drop-shadow-xs z-50 fixed bg-white h-12 border-b border-b-gray-300">
+    <nav className="w-full drop-shadow-xs z-50 fixed bg-white h-12 border-b border-b-gray-200">
       <div className="mx-auto h-full container flex flex-row">
         <div className="flex space-x-3 select-none justify-center text-sm font-semibold items-center border-b-transparent h-full w-fit px-4 border-b-2">
           <div className="flex justify-center items-center">
@@ -55,11 +55,11 @@ export default function Navbar({ activeHref, appendItems }: Props) {
 
         {items.map((item) => (
           <Link key={item.href} shallow href={item.href}>
-            <div
-              className={`flex cursor-pointer justify-center text-sm font-semibold items-center h-full w-fit px-4 border-b-2 ${item.isActive() ? "border-b-lime-500" : "border-b-transparent"}`}
+            <span
+              className={`flex cursor-pointer justify-center text-sm font-normal items-center h-full w-fit px-4 border-b ${item.isActive() ? "border-b-black text-black" : "border-b-transparent hover:text-black transition-colors duration-75 hover:border-b-gray-300 text-gray-400"}`}
             >
               {item.label}
-            </div>
+            </span>
           </Link>
         ))}
       </div>

@@ -41,3 +41,4 @@ next-env.d.ts
 /docker_npm_data
 ./docker_npm_letsencrypt
 /docker_npm_letsencrypt
+.env

@@ -5,6 +5,7 @@ export interface AppDto {
   url: string;
   description: string;
   icon: string;
+  genre?: string;
   genres: string[];
   genreIds: string[];
   primaryGenre: string;

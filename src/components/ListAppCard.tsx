@@ -92,7 +92,7 @@ export default function ListAppCard(props: Props) {
           </svg>
         </button>
 
-        <Link href={`/app?appId=${props?.appDetails?.id}`}>
+        <Link href={`/app?appId=${props?.appDetails?.id}&country=${props?.similarCountry}&lang=${props?.similarLang}`}>
           <button className="text-blue-400 bg-gray-50 p-2 rounded-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -119,40 +119,31 @@ export default function ListAppCard(props: Props) {
       </If>
 
       <div
-        className={classNames("flex z-10 p-2 gap-3 lg:gap-4 flex-row w-full", {
-          "bg-gray-50 rounded-2xl": props.index != 0 && props.index % 2,
-          "bg-white pb-6 rounded-2xl": props.index == 0,
-        })}
+        className={classNames("flex z-10 gap-3 lg:gap-4 flex-row w-full")}
       >
         <Link
-          target="_blank"
-          href={String(_.get(o, "url"))}
-          className="h-20 w-20 lg:w-24 lg:h-24 flex flex-col hover:scale-105 transition-all flex-grow-0 flex-nowrap flex-none hover:shadow-lg rounded-2xl shadow border border-gray-200 overflow-hidden"
+            target="_blank"
+            href={String(_.get(o, "url"))}
+            className="flex flex-col h-fit flex-none"
         >
           <img
-            src={_.get(o, "icon")}
-            alt={_.get(o, "title")}
-            className="w-full h-full block"
+              src={_.get(o, "icon")}
+              alt={_.get(o, "title")}
+              className="h-20 w-20 border border-gray-200 lg:w-24 lg:h-24 block rounded-2xl "
           />
+
+          <span className="text-gray-400 text-center text-xs mt-2 px-1 py-0.5">
+            #{props.index + 1}
+          </span>
         </Link>
 
         <div className="w-full flex-grow">
           <div className="flex gap-2 flex-row items-center justify-start">
-            <span className="text-gray-500 font-bold bg-gray-100 px-2 py-0.5 rounded-md">
-              #{props.index + 1}
-            </span>
-            <Highlighter
+          <Highlighter
               searchWords={props.highlight || []}
               className="font-semibold text-md lg:text-lg"
               textToHighlight={String(_.get(o, "title"))}
             />
-            <If condition={props?.type == "results"}>
-              <Then>
-                <p className="hidden lg:block font-mono text-gray-400 text-xs">
-                  {_.get(o, "appId")}
-                </p>
-              </Then>
-            </If>
           </div>
 
           <If condition={props?.type == "results"}>
@@ -179,81 +170,84 @@ export default function ListAppCard(props: Props) {
                   ))}
                 </div>
 
-                <div className="flex text-gray-500 gap-2 flex-row items-center text-xs">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z"
-                      clipRule="evenodd"
+                <div className="flex flex-row gap-3">
+                  <div className="flex text-gray-500 gap-2 flex-row items-center text-xs">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-4 h-4"
+                    >
+                      <path
+                          fillRule="evenodd"
+                          d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z"
+                          clipRule="evenodd"
+                      />
+                    </svg>
+                    <Highlighter
+                        searchWords={props.highlight || []}
+                        textToHighlight={String(_.get(o, "developer"))}
+                        autoEscape
                     />
-                  </svg>
-                  <Highlighter
-                    searchWords={props.highlight || []}
-                    textToHighlight={String(_.get(o, "developer"))}
-                    autoEscape
-                  />
-                </div>
+                  </div>
 
-                <div className="flex text-gray-500 gap-2 flex-row items-center text-xs">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path d="M8 16.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z" />
-                    <path
-                      fillRule="evenodd"
-                      d="M4 4a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4Zm4-1.5v.75c0 .414.336.75.75.75h2.5a.75.75 0 0 0 .75-.75V2.5h1A1.5 1.5 0 0 1 14.5 4v12a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 16V4A1.5 1.5 0 0 1 7 2.5h1Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <div className="flex text-gray-500 gap-2 flex-row items-center text-xs">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-4 h-4"
+                    >
+                      <path d="M8 16.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"/>
+                      <path
+                          fillRule="evenodd"
+                          d="M4 4a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V4Zm4-1.5v.75c0 .414.336.75.75.75h2.5a.75.75 0 0 0 .75-.75V2.5h1A1.5 1.5 0 0 1 14.5 4v12a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 16V4A1.5 1.5 0 0 1 7 2.5h1Z"
+                          clipRule="evenodd"
+                      />
+                    </svg>
 
-                  <span>
-                    {_.size(_.get(o, "supportedDevices", undefined))} supported
-                    devices
-                  </span>
+                    <span>
+                      {_.size(_.get(o, "supportedDevices", undefined))} supported
+                      devices
+                    </span>
+                  </div>
                 </div>
 
                 <If condition={_.get(o, "score", undefined)}>
                   <Then>
                     <div className="flex pb-4 text-gray-500 gap-0.5 flex-row items-center text-xs">
                       {_.range(1, _.round(_.get(o, "score", 1), 0) + 1).map(
-                        (i) => (
+                          (i) => (
+                              <svg
+                                  key={i}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  fill="currentColor"
+                                  className="w-4 h-4 text-amber-300"
+                              >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                                    clipRule="evenodd"
+                                />
+                              </svg>
+                          ),
+                      )}
+
+                      {_.range(_.round(_.get(o, "score", 1), 0), 5).map((i) => (
                           <svg
-                            key={i}
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            className="w-4 h-4 text-amber-300"
+                              key={i}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="w-4 h-4 text-gray-300"
                           >
                             <path
-                              fillRule="evenodd"
-                              d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                              clipRule="evenodd"
+                                fillRule="evenodd"
+                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                                clipRule="evenodd"
                             />
                           </svg>
-                        ),
-                      )}
-                      {_.range(_.round(_.get(o, "score", 1), 0), 5).map((i) => (
-                        <svg
-                          key={i}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="w-4 h-4 text-gray-300"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
                       ))}
 
                       <span className="mt-0.5 bg-amber-100 rounded-full px-2 py-0 text-amber-600 text-xs font-semibold">
@@ -287,60 +281,69 @@ export default function ListAppCard(props: Props) {
 
           <If condition={props.type == "results"}>
             <Then>
-              <div className="flex w-full gap-2 mt-2 flex-row">
-                {_.take(o.screenshots, 6).map((screenshot) => (
-                  <img
-                    key={screenshot}
-                    className="w-20 lg:w-32 lg:min-h-52 drop-shadow-sm object-contain bg-gray-50 rounded-lg border-gray-200 border"
-                    src={screenshot || undefined}
-                    alt={screenshot}
-                  />
-                ))}
+              <div className="flex divide-gray-100 divide-x w-full overflow-x-auto mt-2 flex-row">
+                <div className="flex w-fit flex-shrink-0 pr-4 gap-2 mt-2 flex-row">
+                  {_.take(o.screenshots, 3).map((screenshot) => (
+                      <img
+                          key={screenshot}
+                          className="w-24 lg:w-44 lg:min-h-52 object-contain bg-gray-50 rounded-lg border border-gray-100"
+                          src={screenshot || undefined}
+                          alt={screenshot}
+                      />
+                  ))}
+                </div>
+
+                <div className="flex w-fit flex-shrink-0 pl-4 gap-2 mt-2 flex-row">
+                  {_.drop(o.screenshots, 3).map((screenshot) => (
+                      <img
+                          key={screenshot}
+                          className="w-24 lg:w-44 lg:min-h-52 object-contain bg-gray-50 rounded-lg border border-gray-100"
+                          src={screenshot || undefined}
+                          alt={screenshot}
+                      />
+                  ))}
+                </div>
               </div>
 
-              <If
-                condition={
-                  props.enabledSimilar &&
-                  !(_.isArray(similarApps) && _.isEmpty(similarApps))
-                }
-              >
-                <Then>
-                  <div className="bg-gray-100 px-3 py-2 rounded-lg w-full mt-2">
-                    <h4 className="text-sm mb-2 text-gray-400">Similar apps</h4>
-
-                    <div className="flex flex-row gap-4 flex-wrap">
-                      <Switch>
-                        <Case condition={similarApps === undefined}>
-                          <div className="animate-pulse h-20 w-20 lg:w-24 lg:h-24 bg-gray-200 rounded-lg"></div>
-                          <div className="animate-pulse h-20 w-20 lg:w-24 lg:h-24 bg-gray-200 rounded-lg"></div>
-                          <div className="animate-pulse h-20 w-20 lg:w-24 lg:h-24 bg-gray-200 rounded-lg"></div>
-                        </Case>
-
-                        <Case condition={_.isArray(similarApps)}>
-                          {similarApps?.map((app) => (
-                            <div key={app.id} className="flex-shrink-0">
-                              <CompactAppCard appDetails={app} />
-                            </div>
-                          ))}
-                        </Case>
-                      </Switch>
+              <Switch>
+                <Case condition={props.enabledSimilar && similarApps === undefined}>
+                  <div className="flex mt-4 flex-row space-x-3 items-center">
+                    <div className="flex flex-row space-x-0.5 items-center">
+                      <div className="w-2 h-2 rounded bg-gray-300 animate-pulse delay-0"></div>
+                      <div className="w-2 h-2 rounded bg-gray-200 animate-pulse delay-150"></div>
+                      <div className="w-2 h-2 rounded bg-gray-100 animate-pulse delay-300"></div>
                     </div>
+
+                    <span className="text-xs text-gray-400">
+                      Loading similar applications
+                    </span>
                   </div>
-                </Then>
-              </If>
+                </Case>
+
+                <Case condition={props.enabledSimilar && _.isArray(similarApps)}>
+                  <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-1">
+                    {similarApps?.map((app) => (
+                      <Link href={`/app?appId=${app.id}&lang=${props.similarLang}&country=${props.similarCountry}`} target="_blank" key={app.id} className="w-full h-8 flex flex-row space-x-2 items-center border border-gray-200 rounded-lg overflow-hidden px-0.5 py-0.5">
+                        <img src={app.icon} className="w-6 h-6 rounded-md" alt=""/>
+                        <span className="text-xs font-semibold text-gray-500">{app.title}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </Case>
+              </Switch>
 
               <div className="mt-3">
                 <Link
-                  className="text-blue-500 flex flex-row items-center gap-1 text-xs"
-                  href={`https://appmagic.rocks/iphone/${decamelize(_.get(o, "title"), { separator: "-" })}/${_.get(o, "id")}`}
+                    className="text-blue-500 flex flex-row items-center gap-1 text-xs"
+                    href={`https://appmagic.rocks/iphone/${decamelize(_.get(o, "title"), {separator: "-"})}/${_.get(o, "id")}`}
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="w-4 h-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="w-4 h-4"
                   >
-                    <path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z" />
+                  <path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z" />
                     <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z" />
                   </svg>
                   <span>Open in AppsMagic</span>

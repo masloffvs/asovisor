@@ -38,11 +38,15 @@ export default function handler(
     .collection("appAiInfo")
     .findOne({
       appId: parseInt(String(req.query.appId)),
+      lang: req.query.lang,
+      country: req.query.country,
     })
     .then(async (appRecord) => {
       if (appRecord == null) {
         memoized.app({
-          id: parseInt(String(req.query.appId))
+          id: parseInt(String(req.query.appId)),
+          lang: req.query.lang,
+          country: req.query.country,
         }).then(async (appInfo: AppDto) => {
           const emotionClassificationResponse = await fetch(
               "https://api-inference.huggingface.co/models/SamLowe/roberta-base-go_emotions",

@@ -14,7 +14,7 @@ import { AppDto } from "@/dto/AppDto";
 
 interface Props {
   readonly type: "results" | "compact";
-  readonly results: any[];
+  readonly results?: AppDto[];
   readonly searchValue?: string;
   readonly highlight?: string[];
 
@@ -42,28 +42,6 @@ export default function SearchResults(props: Props) {
           appDetails={appDetails}
         />
       ))}
-
-      <div className="w-full flex flex-col items-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          className="w-4 h-4 animate-bounce"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm-.75 10.25a.75.75 0 0 0 1.5 0V6.56l1.22 1.22a.75.75 0 1 0 1.06-1.06l-2.5-2.5a.75.75 0 0 0-1.06 0l-2.5 2.5a.75.75 0 0 0 1.06 1.06l1.22-1.22v4.69Z"
-            clipRule="evenodd"
-          />
-        </svg>
-
-        <p className="text-xs text-gray-500 text-center max-w-96 mt-2">
-          <b>Congratulations</b>, you've reached the very end of the page! The
-          rest of the issue was stolen by aliens. As soon as they return search
-          results, we will definitely add them to the page. But for now it's
-          like that
-        </p>
-      </div>
     </div>
   );
 }

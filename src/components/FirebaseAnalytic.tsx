@@ -1,12 +1,9 @@
 import { FirebaseApp, initializeApp } from "firebase/app";
-import { getAnalytics, logEvent } from "firebase/analytics";
+import {Analytics, getAnalytics, logEvent} from "firebase/analytics";
 import { ReactNode, useEffect } from "react";
-import { initializeAppCheck } from "@firebase/app-check";
-import { getPerformance } from "firebase/performance";
+import {FirebasePerformance, getPerformance} from "firebase/performance";
 import {
-  fetchAndActivate,
   getRemoteConfig,
-  getValue,
   RemoteConfig,
 } from "firebase/remote-config"; // @ts-ignore
 import camelcase from "camelcase";
@@ -28,20 +25,24 @@ interface Props {
 
 export let firebaseApplication: FirebaseApp;
 export let remoteConfig: RemoteConfig;
+export let analytics: Analytics
+export let perf: FirebasePerformance
 
 export default function FirebaseAnalytic(props: Props) {
   useEffect(() => {
-    firebaseApplication = initializeApp(firebaseConfig);
-    remoteConfig = getRemoteConfig(firebaseApplication);
+    if (process.env.NODE_ENV != 'development') {
+      firebaseApplication = initializeApp(firebaseConfig);
+      remoteConfig = getRemoteConfig(firebaseApplication);
 
-    const analytics = getAnalytics(firebaseApplication);
-    const perf = getPerformance(firebaseApplication);
+      analytics = getAnalytics(firebaseApplication);
+      perf = getPerformance(firebaseApplication);
 
-    remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
+      remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
 
-    logEvent(analytics, "page_view", {
-      name: camelcase(props.pageName),
-    });
+      logEvent(analytics, "page_view", {
+        name: camelcase(props.pageName),
+      });
+    }
   }, []);
 
   return <>{props.children}</>;
